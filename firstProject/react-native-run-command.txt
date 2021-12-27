@@ -1,0 +1,6 @@
+step 1 : npx react-native init projectName => Projeyi oluşturur
+step 2 : AVD'den emulatoru aç
+step 3 : npx react-native start
+step 4 : npx react-native run-android =>diğer terminal çalışırken yeni terminalde çalıştır
+
+ctrl+m => emülatorde dev menu
