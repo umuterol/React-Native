@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
         marginVertical: 20,      
         borderBottomColor:Colors.primaryColor,
         borderBottomWidth:1,
-        borderRadius:10,
     },
     mealHeader: {
         height: '85%',
