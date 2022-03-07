@@ -4,10 +4,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import ProductItem from '../../components/shop/ProductItem'
 import HeaderCart from '../../components/UI/HeaderCart'
 import * as cartActions from '../../store/actions/cart'
+import HeaderMenu from '../../components/UI/HeaderMenu'
 
 const ProductsOverviewScreen = props => {
     const products = useSelector(state => state.products.availableProducts)
-    const cartTotalAmount=useSelector(state=>state.cart.totalAmount);
+    const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -17,7 +18,12 @@ const ProductsOverviewScreen = props => {
                     amount={cartTotalAmount}
                     onSelect={() => props.navigation.navigate('Cart')}
                 />
-            )
+            ),
+            headerLeft: () => (
+                <HeaderMenu
+                    onSelect={() => props.navigation.toggleDrawer()}
+                />
+            ),
         })
     }, [cartTotalAmount])
     return (
@@ -35,7 +41,7 @@ const ProductsOverviewScreen = props => {
                             title: itemData.item.title,
                         })
                     }}
-                    onAddToCart={() => {dispatch(cartActions.addToCart(itemData.item))}}
+                    onAddToCart={() => { dispatch(cartActions.addToCart(itemData.item)) }}
                 />}
         />
     )

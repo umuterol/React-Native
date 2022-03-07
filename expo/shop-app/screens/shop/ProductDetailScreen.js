@@ -5,7 +5,6 @@ import Colors from '../../constans/Colors'
 import HeaderCart from '../../components/UI/HeaderCart'
 import * as cartActions from '../../store/actions/cart'
 
-
 const ProductDetailScreen = (props) => {
     const productId = props.route.params.productId
     const selectedProduct = useSelector(state =>
@@ -13,7 +12,6 @@ const ProductDetailScreen = (props) => {
             prod.id === productId))
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     const dispatch = useDispatch();
-
     useEffect(() => {
         props.navigation.setOptions({ headerTitle: props.route.params.title })
     }, [])

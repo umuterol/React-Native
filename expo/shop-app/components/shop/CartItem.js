@@ -20,9 +20,11 @@ const CartItem = props => {
             </View>
             <View style={styles.cartData}>
                 <Text style={styles.mainTxt}>${props.amount.toFixed(2)}</Text>
-                <TouchableOpacity onPress={props.onDelete} style={styles.deleteBtn}>
-                    <MaterialIcons name="delete" size={23} color="red" />
-                </TouchableOpacity>
+                {
+                    props.deletable && <TouchableOpacity onPress={props.onDelete} style={styles.deleteBtn}>
+                        <MaterialIcons name="delete" size={23} color="red" />
+                    </TouchableOpacity>
+                }
             </View>
         </View>
     )
