@@ -27,7 +27,7 @@ const Shop = () => (
         <Stack.Screen
             name='ProductsOverview'
             component={Screens.ProductsOverview}
-            options={{ headerTitle: "All Product" }} />
+            options={{ title: 'All Product' }} />
         <Stack.Screen
             name='ProductDetail'
             component={Screens.ProductDetail}
@@ -56,11 +56,35 @@ const Orders = () => (
         <Stack.Screen
             name='OrdersScreen'
             component={Screens.Orders}
-            options={{ headerTitle: "Your Orders" }
+            options={{ title: "Your Orders" }
             }
         />
     </Stack.Navigator>
 )
+
+const User = () => (
+    <Stack.Navigator
+        screenOptions={
+            {
+                headerStyle: {
+                    backgroundColor: Colors.primary,
+                },
+                headerTintColor: 'white',
+                headerTitleStyle: {
+                    fontFamily: 'open-sans-bold'
+                }
+            }
+        }
+    >
+        <Stack.Screen
+            name='UserScreen'
+            component={Screens.UserProducts}
+            options={{ title: "Your Products" }
+            }
+        />
+    </Stack.Navigator>
+)
+
 
 export default () => {
     return <NavigationContainer>
@@ -99,6 +123,15 @@ export default () => {
                 options={{
                     drawerIcon: drawerConfig => <Ionicons
                         name='list'
+                        color={drawerConfig.color}
+                        size={drawerConfig.size} />
+                }} />
+            <Drawer.Screen
+                name='User'
+                component={User}
+                options={{
+                    drawerIcon: drawerConfig => <Ionicons
+                        name='create'
                         color={drawerConfig.color}
                         size={drawerConfig.size} />
                 }} />
