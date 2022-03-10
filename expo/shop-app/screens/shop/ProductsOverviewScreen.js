@@ -8,7 +8,7 @@ import HeaderMenu from '../../components/UI/HeaderMenu'
 import Colors from '../../constans/Colors'
 
 const ProductsOverviewScreen = props => {
-    const products = useSelector(state => state.products.availableProducts)
+    const products = useSelector(state => state.products.availableProducts).reverse()
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     const dispatch = useDispatch();
 

@@ -82,6 +82,12 @@ const User = () => (
             options={{ title: "Your Products" }
             }
         />
+        <Stack.Screen
+            name='EditProductScreen'
+            component={Screens.editProduct}
+            options={{ title: "Edit Products" }
+            }
+        />
     </Stack.Navigator>
 )
 
