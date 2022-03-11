@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, Button } from "react-native";
+import { StyleSheet, FlatList, Button, Alert } from "react-native";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as productsActions from "../../store/actions/products";
@@ -35,6 +35,23 @@ const UserProductsScreen = (props) => {
     });
   }, []);
 
+  const deleteHandler = (id) => {
+    Alert.alert(
+      "Are you sure?",
+      "Do you really want to delete this item?",
+      [
+        { text: "No", style: "default" },
+        {
+          text: "Yes",
+          style: "destructive",
+          onPress: () => {
+            dispatch(productsActions.deleteUserProduct(id));
+          },
+        },
+      ].reverse()
+    );
+  };
+
   return (
     <FlatList
       keyExtractor={(item) => item.id}
@@ -58,9 +75,7 @@ const UserProductsScreen = (props) => {
           <Button
             color={Colors.primary}
             title="Delete"
-            onPress={() => {
-              dispatch(productsActions.deleteUserProduct(itemData.item.id));
-            }}
+            onPress={deleteHandler.bind(this, itemData.item.id)}
           />
         </ProductItem>
       )}
