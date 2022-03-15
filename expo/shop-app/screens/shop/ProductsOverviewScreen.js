@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
-import { FlatList, Button, View } from 'react-native'
+import { FlatList, Button, ActivityIndicator, View } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import ProductItem from '../../components/shop/ProductItem'
 import HeaderCart from '../../components/UI/HeaderCart'
 import * as cartActions from '../../store/actions/cart'
+import * as productsActions from '../../store/actions/products'
 import HeaderMenu from '../../components/UI/HeaderMenu'
 import Colors from '../../constans/Colors'
 
@@ -11,6 +12,10 @@ const ProductsOverviewScreen = props => {
     const products = useSelector(state => state.products.availableProducts)
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(productsActions.fetchProducts());
+    }, [])
 
     useEffect(() => {
         props.navigation.setOptions({
@@ -33,6 +38,15 @@ const ProductsOverviewScreen = props => {
             productId: id,
             title: title,
         })
+    }
+
+    if (products.length === 0) {
+        return <View style={{ justifyContent: 'center', alignItems: 'center', flex:1 }}>
+            <ActivityIndicator
+                color={Colors.primary}
+                size={50}
+            />
+        </View>
     }
 
     return (

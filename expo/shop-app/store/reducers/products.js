@@ -2,17 +2,23 @@ import {
   DELETE_USER_PRODUCT,
   CREATE_PRODUCT,
   UPDATE_PRODUCT,
+  SET_PRODUCTS
 } from "../actions/products";
 import PRODUCTS from "../../data/dummy-data";
 import Product from "../../models/product";
 
 const initialState = {
-  availableProducts: PRODUCTS,
-  userProducts: PRODUCTS.filter((pro) => pro.ownerId === "u1"),
+  availableProducts: [],
+  userProducts: [],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_PRODUCTS:
+      return {
+        availableProducts: action.products,
+        userProducts: action.products.filter((pro) => pro.ownerId === "u1"),
+      }
     case DELETE_USER_PRODUCT:
       return {
         userProducts: state.userProducts.filter(
