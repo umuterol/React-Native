@@ -1,25 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux'
-import productsReducer from './store/reducers/products'
-import cartReducer from './store/reducers/cart'
-import ordersReducer from './store/reducers/orders'
-import Navigation from './navigation';
-import { useFonts } from 'expo-font'
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet } from "react-native";
+import { Provider } from "react-redux";
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import productsReducer from "./store/reducers/products";
+import cartReducer from "./store/reducers/cart";
+import ordersReducer from "./store/reducers/orders";
+import Navigation from "./navigation";
+import { useFonts } from "expo-font";
+import ReduxThunk from "redux-thunk";
 
 const rootReducer = combineReducers({
   products: productsReducer,
   cart: cartReducer,
   orders: ordersReducer,
-})
-const store = createStore(rootReducer);
+});
+const store = createStore(rootReducer,applyMiddleware(ReduxThunk));
 
 export default function App() {
   const [loaded] = useFonts({
-    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
-    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
-  })
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+  });
   if (!loaded) {
     return null;
   }
@@ -34,8 +35,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

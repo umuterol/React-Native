@@ -10,23 +10,20 @@ export const deleteUserProduct = (productId) => {
 };
 
 export const createProduct = (title, imageUrl, description, price) => {
-  return {
-    type: CREATE_PRODUCT,
-    productData: {
-      title,
-      imageUrl,
-      description,
-      price,
-    },
+  return async (dispatch) => {
+    dispatch({
+      type: CREATE_PRODUCT,
+      productData: {
+        title,
+        imageUrl,
+        description,
+        price,
+      },
+    });
   };
 };
 
-export const updateProduct = (
-  productId,
-  title,
-  imageUrl,
-  description,
-) => {
+export const updateProduct = (productId, title, imageUrl, description) => {
   return {
     type: UPDATE_PRODUCT,
     productId,

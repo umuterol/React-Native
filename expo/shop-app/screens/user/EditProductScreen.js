@@ -119,9 +119,9 @@ const EditProductScreen = (props) => {
 
   return (
     <KeyboardAvoidingView
-    behavior="padding"
-    keyboardVerticalOffset={100}
-    style={{flex:1}}
+      behavior="height"
+      keyboardVerticalOffset={100}
+      style={{ flex: 1 }}
     >
       <ScrollView>
         <View style={styles.form}>
@@ -172,55 +172,6 @@ const EditProductScreen = (props) => {
             multiline
             numberOfLines={2}
           />
-
-<Input
-            label="Title"
-            id="title"
-            onInputChange={inputChangeHandler}
-            errorText="Please enter a valid title!"
-            initialValue={editedProduct ? editedProduct.title : ""}
-            initiallyValid={!!editedProduct}
-            required
-            keyboardType="default"
-            autoCapitalize="sentences"
-            autoCorrect
-            returnKeyType="next"
-          />
-          <Input
-            label="Image Url"
-            id="imageUrl"
-            returnKeyType="next"
-            onInputChange={inputChangeHandler}
-            errorText="Please enter a valid image url!"
-            initialValue={editedProduct ? editedProduct.imageUrl : ""}
-            initiallyValid={!!editedProduct}
-            required
-          />
-          {!editedProduct && (
-            <Input
-              label="Price"
-              id="price"
-              onInputChange={inputChangeHandler}
-              errorText="Please enter a valid price !"
-              keyboardType="number-pad"
-              returnKeyType="next"
-              min={0.1}
-              required
-            />
-          )}
-          <Input
-            label="Description"
-            id="description"
-            onInputChange={inputChangeHandler}
-            errorText="Please enter a valid description!"
-            initialValue={editedProduct ? editedProduct.description : ""}
-            initiallyValid={!!editedProduct}
-            keyboardType="default"
-            minLength={15}
-            multiline
-            numberOfLines={2}
-          />
-
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
