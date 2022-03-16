@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { FlatList, Button, ActivityIndicator, View } from 'react-native'
+import React, { useEffect, useState, useCallback } from 'react'
+import { FlatList, Button, ActivityIndicator, View, StyleSheet, Text } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import ProductItem from '../../components/shop/ProductItem'
 import HeaderCart from '../../components/UI/HeaderCart'
@@ -9,13 +9,33 @@ import HeaderMenu from '../../components/UI/HeaderMenu'
 import Colors from '../../constans/Colors'
 
 const ProductsOverviewScreen = props => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState()
     const products = useSelector(state => state.products.availableProducts)
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(productsActions.fetchProducts());
+    // useEffect(
+    //     () => props.navigation.addListener('focus', loadProducts),
+    //     []
+    // );
+
+    const loadProducts = useCallback(async () => {
+        setIsLoading(true)
+        try {
+            await dispatch(productsActions.fetchProducts());
+            setError(null)
+        } catch (error) {
+            setError(error.message)
+        }
+        setIsLoading(false)
     }, [])
+
+    useEffect(() => {
+        const focusSub=props.navigation.addListener('focus', loadProducts)
+        // props.navigation.addListener('blur', () => alert('Screen was unfocused'))
+        return focusSub;
+    }, [loadProducts])
 
     useEffect(() => {
         props.navigation.setOptions({
@@ -40,12 +60,26 @@ const ProductsOverviewScreen = props => {
         })
     }
 
-    if (products.length === 0) {
-        return <View style={{ justifyContent: 'center', alignItems: 'center', flex:1 }}>
+
+    if (isLoading) {
+        return <View style={styles.centered}>
             <ActivityIndicator
                 color={Colors.primary}
                 size={50}
             />
+        </View>
+    }
+
+    if (error) {
+        return <View style={styles.centered}>
+            <Text>An error occurred!</Text>
+            <Button title='Try again' onPress={loadProducts} />
+        </View>
+    }
+
+    if (!isLoading && products.length === 0) {
+        return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+            <Text>No products found.</Text>
         </View>
     }
 
@@ -76,3 +110,11 @@ const ProductsOverviewScreen = props => {
 }
 
 export default ProductsOverviewScreen;
+
+const styles = StyleSheet.create({
+    centered: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    }
+})
