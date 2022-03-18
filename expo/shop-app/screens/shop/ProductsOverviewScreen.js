@@ -64,13 +64,14 @@ const ProductsOverviewScreen = (props) => {
     });
   };
 
-  if (isLoading) {
-    return (
-      <View style={styles.centered}>
-        <ActivityIndicator color={Colors.primary} size={50} />
-      </View>
-    );
-  }
+  //Flat List refreshing
+  // if (isLoading) {
+  //   return (
+  //     <View style={styles.centered}>
+  //       <ActivityIndicator color={Colors.primary} size={50} />
+  //     </View>
+  //   );
+  // }
 
   if (error) {
     return (
@@ -83,7 +84,7 @@ const ProductsOverviewScreen = (props) => {
 
   if (!isLoading && products.length === 0) {
     return (
-      <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
+      <View style={styles.centered}>
         <Text>No products found.</Text>
       </View>
     );
@@ -91,6 +92,8 @@ const ProductsOverviewScreen = (props) => {
 
   return (
     <FlatList
+      onRefresh={loadProducts}
+      refreshing={isLoading}
       keyExtractor={(item) => item.id}
       data={products}
       renderItem={(itemData) => (
