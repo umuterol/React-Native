@@ -93,8 +93,8 @@ const EditProductScreen = (props) => {
       props.navigation.goBack();
     } catch (error) {
       setError(error.message);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, [dispatch, productId, formState]);
 
   useEffect(() => {

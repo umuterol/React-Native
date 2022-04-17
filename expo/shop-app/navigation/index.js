@@ -1,9 +1,11 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import React from "react";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from "@react-navigation/drawer";
+import React, { useRef, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Screens from "./screens";
+import { useDispatch, useSelector } from "react-redux";
+import * as authActions from '../store/actions/auth'
 import Colors from "../constans/Colors";
 
 const Stack = createNativeStackNavigator();
@@ -85,7 +87,7 @@ const User = () => (
 );
 
 const AuthorizationStack = () => (
-    <Stack.Navigator
+  <Stack.Navigator
     screenOptions={{
       headerStyle: {
         backgroundColor: Colors.primary,
@@ -103,6 +105,7 @@ const AuthorizationStack = () => (
     />
   </Stack.Navigator>
 )
+
 
 const ShopDrawer = () => {
   return (
@@ -125,6 +128,7 @@ const ShopDrawer = () => {
         drawerActiveTintColor: "white",
         drawerInactiveTintColor: Colors.primary,
       }}
+      drawerContent={props => <CustomDrawerContent {...props} />}
     >
       <Drawer.Screen
         name="Shop"
@@ -169,15 +173,48 @@ const ShopDrawer = () => {
   );
 };
 
-export default () => (
-  <NavigationContainer>
-    <Stack.Navigator screenOptions={{headerShown:false}}>
-      <Stack.Screen
-        name="AuthorizationStack"
-        component={AuthorizationStack}
-        options={{ title: "Authorization" }}
+function CustomDrawerContent(props) {
+  const dispatch = useDispatch();
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem
+        label="Logout"
+        onPress={() => {
+          dispatch(authActions.logout())
+          // props.navigation.replace('AuthorizationStack');
+        }}
+        labelStyle={{ alignSelf: 'flex-end', color: 'white', fontFamily: 'open-sans-bold' }}
       />
-      <Stack.Screen name="ShopDrawer" component={ShopDrawer} />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+    </DrawerContentScrollView>
+  );
+}
+
+export default () => {
+  const isAuth = useSelector(state => !!state.auth.token);
+  const navigationRef = useRef();
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigationRef.current.resetRoot({
+        index: 0,
+        routes: [{ name: 'AuthorizationStack' }],
+      });
+      console.log(navigationRef.current.getRootState())
+    }
+  }, [isAuth])
+
+  return (
+    <NavigationContainer ref={navigationRef} >
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Startup" component={Screens.Startup} />
+        <Stack.Screen
+          name="AuthorizationStack"
+          component={AuthorizationStack}
+          options={{ title: "Authorization" }}
+        />
+        <Stack.Screen name="ShopDrawer" component={ShopDrawer} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}

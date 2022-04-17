@@ -4,10 +4,11 @@ export const ADD_ORDER = "ADD_ORDER";
 export const SET_ORDERS = "SET_ORDERS";
 
 export const fetchOrders = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { userId } = getState().auth;
     try {
       const response = await fetch(
-        "https://shop-app-5f9ab-default-rtdb.firebaseio.com/order/u1.json"
+        `https://shop-app-5f9ab-default-rtdb.firebaseio.com/order/${userId}.json`
       );
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -36,9 +37,10 @@ export const fetchOrders = () => {
 
 export const addOrder = (cartItems, totalAmount) => {
   const date = new Date();
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { token,userId } = getState().auth;
     const response = await fetch(
-      "https://shop-app-5f9ab-default-rtdb.firebaseio.com/order/u1.json",
+      `https://shop-app-5f9ab-default-rtdb.firebaseio.com/order/${userId}.json?auth=${token}`,
       {
         method: "POST",
         headers: {

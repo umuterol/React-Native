@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
     case SET_PRODUCTS:
       return {
         availableProducts: action.products,
-        userProducts: action.products.filter((pro) => pro.ownerId === "u1"),
+        userProducts: action.userProducts,
       }
     case DELETE_USER_PRODUCT:
       return {
@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
     case CREATE_PRODUCT:
       const newProduct = new Product(
         action.productData.id,
-        "u1",
+        action.ownerId,
         action.productData.title,
         action.productData.imageUrl,
         action.productData.description,
